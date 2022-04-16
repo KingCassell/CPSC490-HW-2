@@ -28,6 +28,7 @@ public class GraphAlgorithms {
    * or null if src is an invalid index
    */
   public static Map<Integer,Integer> bfs(Graph g, int src) {
+    return null;
   }
 
   
@@ -41,6 +42,7 @@ public class GraphAlgorithms {
    * there is no path, src is invalid, or dst is invalid.
    */
   public static List<Integer> shortestPath(Graph g, int src, int dst) {
+    return null;
   }
 
   
@@ -53,6 +55,7 @@ public class GraphAlgorithms {
    * @reutn the node component map (node to component number)
    */
   public static Map<Integer,Integer> connectedComponents(Graph g) {
+    return null;
   }
 
   
@@ -64,6 +67,7 @@ public class GraphAlgorithms {
    * @return true if the graph is bipartite and false otherwise
    */
   public static boolean bipartite(Graph g) {
+    return false;
   }
 
   
