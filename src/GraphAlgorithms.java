@@ -31,18 +31,15 @@ public class GraphAlgorithms {
     public static Map<Integer,Integer> bfs(Graph g, int src) {
         queue = new LinkedList<>();
         discoveredNodes = new HashMap<>();
-        List<Integer> adjNodes = g.adjacent(src);
         int uVal;
 
-
-        // Mark all vertices as unexplored.
-
         queue.add(src);
-        
         while (!queue.isEmpty()) {
-            uVal = queue.remove();
-            for (int v = 0; v < adjNodes.size(); v++) {
-
+            uVal = queue.poll();
+            if (!discoveredNodes.containsKey(uVal)){
+                discoveredNodes.put(uVal, 1);
+                System.out.println(uVal);
+                queue.addAll(g.adjacent(uVal));
             }
 
         }
