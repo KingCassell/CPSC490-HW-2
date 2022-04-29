@@ -14,7 +14,7 @@ import java.util.*;
 public class GraphAlgorithms {
     
     private static Queue<Integer> queue;
-    private static Map<Integer, Integer> discoveredNodes;
+    private static Map<Integer, Integer> visited;
 
     // singleton
     private GraphAlgorithms() {}
@@ -30,20 +30,29 @@ public class GraphAlgorithms {
      */
     public static Map<Integer,Integer> bfs(Graph g, int src) {
         queue = new LinkedList<>();
-        discoveredNodes = new HashMap<>();
+        visited = new HashMap<>();
+        List<Integer> nodes;
         int uVal;
 
+        if (g.directed()) {
+            nodes = g.outNodes(src);
+        } else {
+            nodes = g.adjacent(src);
+        }
         queue.add(src);
+        visited.put(src, -1);
+
         while (!queue.isEmpty()) {
             uVal = queue.poll();
-            if (!discoveredNodes.containsKey(uVal)){
-                discoveredNodes.put(uVal, 1);
-                System.out.println(uVal);
-                queue.addAll(g.adjacent(uVal));
+            for (int node : nodes) {
+                if (!visited.containsKey(node)) {
+                    visited.put(uVal, 1);
+                    System.out.println(uVal);
+                    queue.add(node);
+                }
             }
-
         }
-        return null;
+        return visited;
     }
 
 
@@ -53,7 +62,7 @@ public class GraphAlgorithms {
      * @param g the directed or undirected graph to search
      * @param src the source node to search from
      * @param dst the destination node of the path
-     * @return the shortest path as a list from src to dst or null if
+     * @return the shortest path as a list from src to dst or null ifd
      *         there is no path, src is invalid, or dst is invalid.
      */
     public static List<Integer> shortestPath(Graph g, int src, int dst) {
