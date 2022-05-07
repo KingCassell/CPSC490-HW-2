@@ -33,7 +33,6 @@ public class GraphAlgorithms {
         queue = new LinkedList<Integer>();
         discoveredNodes = new HashMap<Integer, Integer>();
         int uVal;
-        int index = 0;
         discoveredNodes.put(src, -1);
         queue.add(src);
         while (!queue.isEmpty()) {
@@ -106,10 +105,44 @@ public class GraphAlgorithms {
      *          or not (i.e., for directed graph, finds its weakly connected
      *          components).
      * @param g the given graph
-     * @reutn the node component map (node to component number)
+     * @return the node component map (node to component number)
      */
     public static Map<Integer,Integer> connectedComponents(Graph g) {
-        return null;
+        discoveredNodes = new HashMap<>();
+        boolean[] visited = new boolean[g.nodeCount()];
+        List<Integer> toVisit = new ArrayList<>(g.nodeCount());
+        queue = new LinkedList<>();
+        discoveredNodes = new HashMap<>();
+        int uVal;
+        // set all booleans in array to false
+        Arrays.fill(visited, Boolean.FALSE);
+        // Loop through and check every node in the graph while keeping track of visited
+        // nodes in the above boolean array. when a vertex and its adjacent node have
+        // both been unvisited, add it to the discoveredNodes map.
+        for (int vertex = 0; vertex < g.nodeCount(); ++vertex) {
+            // verify if this node has already been checked.
+            if (!visited[vertex]) {
+                visited[vertex] = true;
+                queue.add(vertex);
+                // Now check the adjacent nodes -> vertex
+                while (!queue.isEmpty()) {
+                    // get the next node to check and clear the list of adjacent nodes
+                    uVal = queue.poll();
+                    toVisit.clear();
+                    // Get all the nodes adjacent to the uVal
+                    toVisit.addAll(g.adjacent(uVal));
+                    for (int node: toVisit) {
+                        // check the list of nodes that can be visited to see if they have already been discovered.
+                        // if not discovered and the edge exists, add it to the queue of possible nodes to be checked.
+                        if (!discoveredNodes.containsKey(node)) {
+                            queue.add(node);
+                            discoveredNodes.put(node, vertex);
+                        }
+                    }
+                }
+            }
+        }
+        return discoveredNodes;
     }
 
 
@@ -121,8 +154,51 @@ public class GraphAlgorithms {
      * @return true if the graph is bipartite and false otherwise
      */
     public static boolean bipartite(Graph g) {
-        return false;
+        queue = new LinkedList<>();
+        int[] coloring = new int[g.nodeCount()]; // -1 | 0 | 1
+        List<Integer> adjacentNodes = new ArrayList<>(g.nodeCount());
+        int uVal;
+        Arrays.fill(coloring, -1); // fill with no coloring as -1
+        coloring[0] = 1;
+        queue.add(0); // always start with vertex 0
+        // continue to use values in the queue like in BFS to search nodes for coloring.
+        while (!queue.isEmpty()) {
+            uVal = queue.poll();
+            if (g.hasEdge(uVal, uVal)) {
+                // self loop, not a valid candidate for bipartite
+                return false;
+            }
+            for (int vertex = 0; vertex < g.nodeCount(); ++vertex) {
+                // loop through every node in the graph to find all non-colored nodes
+                if (g.directed()) {
+
+                } else {
+                    if (g.hasEdge(uVal, vertex) && coloring[vertex] == -1) {
+                        // vertex is not colored and there exists and edge
+                        coloring[vertex] = 1 - coloring[uVal];
+                        queue.add(vertex);
+                        System.out.println("NODE: " + uVal + " " + vertex);
+                    } else if (g.hasEdge(uVal, vertex) && coloring[vertex] == coloring[uVal]) {
+                        // An edge exists and the nodes are the same color. This is a non-bipartite graph
+                        return false;
+                    }
+                }
+            }
+        }
+        System.out.println();
+        return true;
     }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
