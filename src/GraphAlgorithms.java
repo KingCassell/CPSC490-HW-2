@@ -161,29 +161,28 @@ public class GraphAlgorithms {
         Arrays.fill(coloring, -1); // fill with no coloring as -1
         coloring[0] = 1;
         queue.add(0); // always start with vertex 0
-        // continue to use values in the queue like in BFS to search nodes for coloring.
-        while (!queue.isEmpty()) {
-            uVal = queue.poll();
-            if (g.hasEdge(uVal, uVal)) {
+        for (int index = 0; index < g.nodeCount(); ++index) {
+            if (g.hasEdge(index, index)) {
                 // self loop, not a valid candidate for bipartite
                 return false;
             }
+        }
+        // continue to use values in the queue like in BFS to search nodes for coloring.
+        while (!queue.isEmpty()) {
+            uVal = queue.poll();
             for (int vertex = 0; vertex < g.nodeCount(); ++vertex) {
                 // loop through every node in the graph to find all non-colored nodes
-                if (g.directed()) {
-
-                } else {
-                    if (g.hasEdge(uVal, vertex) && coloring[vertex] == -1) {
-                        // vertex is not colored and there exists and edge
-                        coloring[vertex] = 1 - coloring[uVal];
-                        queue.add(vertex);
-                        System.out.println("NODE: " + uVal + " " + vertex);
-                    } else if (g.hasEdge(uVal, vertex) && coloring[vertex] == coloring[uVal]) {
-                        // An edge exists and the nodes are the same color. This is a non-bipartite graph
-                        return false;
-                    }
+                if (g.hasEdge(uVal, vertex) || g.hasEdge(vertex, uVal) && coloring[vertex] == -1) {
+                    // vertex is not colored and there exists and edge
+                    coloring[vertex] = 1 - coloring[uVal];
+                    queue.add(vertex);
+                } else if (g.hasEdge(uVal, vertex) && coloring[vertex] == coloring[uVal]) {
+                    // An edge exists and the nodes are the same color. This is a non-bipartite graph
+                    return false;
                 }
+
             }
+
         }
         System.out.println();
         return true;
