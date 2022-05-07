@@ -29,21 +29,33 @@ public class GraphAlgorithms {
      *         or null if src is an invalid index
      */
     public static Map<Integer,Integer> bfs(Graph g, int src) {
-        queue = new LinkedList<>();
-        discoveredNodes = new HashMap<>();
+        List<Integer> toVisit = new ArrayList<>(g.nodeCount());
+        queue = new LinkedList<Integer>();
+        discoveredNodes = new HashMap<Integer, Integer>();
         int uVal;
-
+        int index = 0;
+        discoveredNodes.put(src, -1);
         queue.add(src);
         while (!queue.isEmpty()) {
+            // get the next node to check and clear the list of adjacent nodes
             uVal = queue.poll();
-            if (!discoveredNodes.containsKey(uVal)){
-                discoveredNodes.put(uVal, 1);
-                System.out.println(uVal);
-                queue.addAll(g.adjacent(uVal));
+            toVisit.clear();
+            // Get all the nodes adjacent to the uVal
+            if (g.directed()) {
+                toVisit.addAll(g.outNodes(uVal));
+            } else {
+                toVisit.addAll(g.adjacent(uVal));
             }
-
+            for (int vertex: toVisit) {
+                // check the list of nodes that can be visited to see if they have already been discovered.
+                // if not discovered and the edge exists, add it to the queue of possible nodes to be checked.
+                if (!discoveredNodes.containsKey(vertex)) {
+                    queue.add(vertex);
+                    discoveredNodes.put(vertex, uVal);
+                }
+            }
         }
-        return null;
+        return discoveredNodes;
     }
 
 
@@ -57,6 +69,33 @@ public class GraphAlgorithms {
      *         there is no path, src is invalid, or dst is invalid.
      */
     public static List<Integer> shortestPath(Graph g, int src, int dst) {
+        List<Integer> shortestPath = new ArrayList<>(g.nodeCount());
+        Stack<Integer> stack = new Stack<>();
+        // add the list of discovered nodes after performing a Breadth first search.
+        discoveredNodes = bfs(g, src);
+        int parent = 0;
+        int child = dst;
+        int index = 0;
+        // traverse from the destination backwards to the src until the src is either found or no more nodes exist.
+        // child is pointed to by parent for discoveredNodes.
+        stack.push(child);
+        while (discoveredNodes.get(child) != null) {
+            // as the discoverNodes map is traversed and each node found is added to a stack
+            // the stack will be used to reverse the order into the shortestPath list once src is found.
+            parent = discoveredNodes.get(child);
+            stack.push(parent);
+
+            if (parent == src) {
+                // load the list from the stack.
+                while (!stack.isEmpty()) {
+                    shortestPath.add(stack.pop());
+                }
+                return shortestPath;
+            }
+            // the child becomes the new parent value to increment the traversal.
+            child = parent;
+        }
+        // if no path exists return null.
         return null;
     }
 
