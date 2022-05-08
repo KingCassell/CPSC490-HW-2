@@ -43,7 +43,7 @@ import java.util.List;
    test in the sense that the graph selected is bipartite. 
 
    (6). You must create a write up that contains: (a) a drawing of
-   each graph you tested with (and which test the graph was usef for);
+   each graph you tested with (and which test the graph was used for);
    and (b) an explanation of what tests you did with respect to the
    corresponding graphs. 
 
