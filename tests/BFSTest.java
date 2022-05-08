@@ -68,22 +68,22 @@ public class BFSTest {
 
     @Test
     public void complexDirectedAllReachableBFS() throws Exception {
-        Graph<Integer> g = new AdjacencyList<>(10, true);
-        g.add(0, null, 1);
-        g.add(1, null, 0);
-        g.add(1, null, 2);
-        g.add(1, null, 3);
-        g.add(1, null, 5);
-        g.add(5, null, 4);
-        g.add(5, null, 8);
-        g.add(5, null, 9);
-        g.add(7, null, 2);
-        g.add(7, null, 6);
-        g.add(9, null, 3);
-        g.add(9, null, 4);
-        g.add(9, null, 7);
+        Graph<Integer> g_a_d = new AdjacencyList<>(10, true);
+        g_a_d.add(0, null, 1);
+        g_a_d.add(1, null, 0);
+        g_a_d.add(1, null, 2);
+        g_a_d.add(1, null, 3);
+        g_a_d.add(1, null, 5);
+        g_a_d.add(5, null, 4);
+        g_a_d.add(5, null, 8);
+        g_a_d.add(5, null, 9);
+        g_a_d.add(7, null, 2);
+        g_a_d.add(7, null, 6);
+        g_a_d.add(9, null, 3);
+        g_a_d.add(9, null, 4);
+        g_a_d.add(9, null, 7);
         // bfs from 0
-        Map<Integer,Integer> tree = GraphAlgorithms.bfs(g, 0);
+        Map<Integer,Integer> tree = GraphAlgorithms.bfs(g_a_d, 0);
         assertEquals(10, tree.size());
         assertTrue(-1 == tree.get(0));
         assertTrue(0 == tree.get(1));
@@ -100,22 +100,22 @@ public class BFSTest {
 
     @Test
     public void complexUndirectedAllReachableBFS() throws Exception {
-        Graph<Integer> g = new AdjacencyList<>(10, false);
-        g.add(0, null, 1);
-        g.add(1, null, 0);
-        g.add(1, null, 2);
-        g.add(1, null, 3);
-        g.add(1, null, 5);
-        g.add(5, null, 4);
-        g.add(5, null, 8);
-        g.add(5, null, 9);
-        g.add(7, null, 2);
-        g.add(7, null, 6);
-        g.add(9, null, 3);
-        g.add(9, null, 4);
-        g.add(9, null, 7);
+        Graph<Integer> g_a_u = new AdjacencyList<>(10, false);
+        g_a_u.add(0, null, 1);
+        g_a_u.add(1, null, 0);
+        g_a_u.add(1, null, 2);
+        g_a_u.add(1, null, 3);
+        g_a_u.add(1, null, 5);
+        g_a_u.add(5, null, 4);
+        g_a_u.add(5, null, 8);
+        g_a_u.add(5, null, 9);
+        g_a_u.add(7, null, 2);
+        g_a_u.add(7, null, 6);
+        g_a_u.add(9, null, 3);
+        g_a_u.add(9, null, 4);
+        g_a_u.add(9, null, 7);
         // bfs from 0
-        Map<Integer,Integer> tree = GraphAlgorithms.bfs(g, 0);
+        Map<Integer,Integer> tree = GraphAlgorithms.bfs(g_a_u, 0);
         assertEquals(10, tree.size());
         assertTrue(-1 == tree.get(0));
         assertTrue(0 == tree.get(1));
@@ -128,7 +128,7 @@ public class BFSTest {
         assertTrue(5 == tree.get(8));
         assertTrue(3 == tree.get(9));
 
-        tree = GraphAlgorithms.bfs(g, 5);
+        tree = GraphAlgorithms.bfs(g_a_u, 5);
         assertEquals(10, tree.size());
         assertTrue(1 == tree.get(0));
         assertTrue(5 == tree.get(1));
@@ -145,22 +145,22 @@ public class BFSTest {
 
     @Test
     public void complexDirectedMostReachableBFS() throws Exception {
-        Graph<Integer> g = new AdjacencyList<>(10, true);
-        g.add(0, null, 1);
-        g.add(1, null, 0);
-        g.add(1, null, 2);
-        g.add(1, null, 3);
-        g.add(1, null, 5);
-        g.add(5, null, 4);
-        g.add(5, null, 8);
-        g.add(5, null, 9);
-        g.add(7, null, 2);
-        g.add(7, null, 6);
-        g.add(9, null, 3);
-        g.add(9, null, 4);
-        g.add(9, null, 7);
+        Graph<Integer> g_a_d = new AdjacencyList<>(10, true);
+        g_a_d.add(0, null, 1);
+        g_a_d.add(1, null, 0);
+        g_a_d.add(1, null, 2);
+        g_a_d.add(1, null, 3);
+        g_a_d.add(1, null, 5);
+        g_a_d.add(5, null, 4);
+        g_a_d.add(5, null, 8);
+        g_a_d.add(5, null, 9);
+        g_a_d.add(7, null, 2);
+        g_a_d.add(7, null, 6);
+        g_a_d.add(9, null, 3);
+        g_a_d.add(9, null, 4);
+        g_a_d.add(9, null, 7);
         // bfs from 5
-        Map<Integer, Integer> tree = GraphAlgorithms.bfs(g, 5);
+        Map<Integer, Integer> tree = GraphAlgorithms.bfs(g_a_d, 5);
         // Nodes 1 and zero are unreachable in this graph with src = 5
         assertEquals(8, tree.size());
         assertTrue(7 == tree.get(2));
@@ -176,22 +176,22 @@ public class BFSTest {
 
     @Test
     public void complexDirectedAllReachableShortestPath() throws Exception {
-        Graph<Integer> g = new AdjacencyList<>(10, true);
-        g.add(0, null, 1);
-        g.add(1, null, 0);
-        g.add(1, null, 2);
-        g.add(1, null, 3);
-        g.add(1, null, 5);
-        g.add(5, null, 4);
-        g.add(5, null, 8);
-        g.add(5, null, 9);
-        g.add(7, null, 2);
-        g.add(7, null, 6);
-        g.add(9, null, 3);
-        g.add(9, null, 4);
-        g.add(9, null, 7);
+        Graph<Integer> g_a_d = new AdjacencyList<>(10, true);
+        g_a_d.add(0, null, 1);
+        g_a_d.add(1, null, 0);
+        g_a_d.add(1, null, 2);
+        g_a_d.add(1, null, 3);
+        g_a_d.add(1, null, 5);
+        g_a_d.add(5, null, 4);
+        g_a_d.add(5, null, 8);
+        g_a_d.add(5, null, 9);
+        g_a_d.add(7, null, 2);
+        g_a_d.add(7, null, 6);
+        g_a_d.add(9, null, 3);
+        g_a_d.add(9, null, 4);
+        g_a_d.add(9, null, 7);
         // Shortest path 0 -> 6
-        List<Integer> path = GraphAlgorithms.shortestPath(g, 0, 6);
+        List<Integer> path = GraphAlgorithms.shortestPath(g_a_d, 0, 6);
         assertEquals(6, path.size());
         assertTrue(0 == path.get(0));
         assertTrue(1 == path.get(1));
@@ -200,45 +200,45 @@ public class BFSTest {
         assertTrue(7 == path.get(4));
         assertTrue(6 == path.get(5));
         // check path 0 -> 2
-        path = GraphAlgorithms.shortestPath(g, 0, 2);
+        path = GraphAlgorithms.shortestPath(g_a_d, 0, 2);
         assertEquals(3, path.size());
         assertTrue(0 == path.get(0));
         assertTrue(1 == path.get(1));
         assertTrue(2 == path.get(2));
         // check path 5 -> 2
-        path = GraphAlgorithms.shortestPath(g, 5, 2);
+        path = GraphAlgorithms.shortestPath(g_a_d, 5, 2);
         assertEquals(4, path.size());
         assertTrue(5 == path.get(0));
         assertTrue(9 == path.get(1));
         assertTrue(7 == path.get(2));
         assertTrue(2 == path.get(3));
         // check path 3 -> 4
-        path = GraphAlgorithms.shortestPath(g, 3, 4);
+        path = GraphAlgorithms.shortestPath(g_a_d, 3, 4);
         assertEquals(null, path);
         // check path 2 -> 6 (should be null)
-        path = GraphAlgorithms.shortestPath(g, 2, 6);
+        path = GraphAlgorithms.shortestPath(g_a_d, 2, 6);
         assertEquals(null, path);
     }
 
 
     @Test
     public void complexUndirectedAllReachableShortestPath() throws Exception {
-        Graph<Integer> g = new AdjacencyList<>(10, false);
-        g.add(0, null, 1);
-        g.add(1, null, 0);
-        g.add(1, null, 2);
-        g.add(1, null, 3);
-        g.add(1, null, 5);
-        g.add(5, null, 4);
-        g.add(5, null, 8);
-        g.add(5, null, 9);
-        g.add(7, null, 2);
-        g.add(7, null, 6);
-        g.add(9, null, 3);
-        g.add(9, null, 4);
-        g.add(9, null, 7);
+        Graph<Integer> g_a_u = new AdjacencyList<>(10, false);
+        g_a_u.add(0, null, 1);
+        g_a_u.add(1, null, 0);
+        g_a_u.add(1, null, 2);
+        g_a_u.add(1, null, 3);
+        g_a_u.add(1, null, 5);
+        g_a_u.add(5, null, 4);
+        g_a_u.add(5, null, 8);
+        g_a_u.add(5, null, 9);
+        g_a_u.add(7, null, 2);
+        g_a_u.add(7, null, 6);
+        g_a_u.add(9, null, 3);
+        g_a_u.add(9, null, 4);
+        g_a_u.add(9, null, 7);
         // Shortest path 0 -> 6
-        List<Integer> path = GraphAlgorithms.shortestPath(g, 0, 6);
+        List<Integer> path = GraphAlgorithms.shortestPath(g_a_u, 0, 6);
         assertEquals(5, path.size());
         assertTrue(0 == path.get(0));
         assertTrue(1 == path.get(1));
@@ -246,25 +246,25 @@ public class BFSTest {
         assertTrue(7 == path.get(3));
         assertTrue(6 == path.get(4));
         // check path 0 -> 2
-        path = GraphAlgorithms.shortestPath(g, 0, 2);
+        path = GraphAlgorithms.shortestPath(g_a_u, 0, 2);
         assertEquals(3, path.size());
         assertTrue(0 == path.get(0));
         assertTrue(1 == path.get(1));
         assertTrue(2 == path.get(2));
         // check path 5 -> 2
-        path = GraphAlgorithms.shortestPath(g, 5, 2);
+        path = GraphAlgorithms.shortestPath(g_a_u, 5, 2);
         assertEquals(3, path.size());
         assertTrue(5 == path.get(0));
         assertTrue(1 == path.get(1));
         assertTrue(2 == path.get(2));
         // check path 3 -> 4
-        path = GraphAlgorithms.shortestPath(g, 3, 4);
+        path = GraphAlgorithms.shortestPath(g_a_u, 3, 4);
         assertEquals(3, path.size());
         assertTrue(3 == path.get(0));
         assertTrue(9 == path.get(1));
         assertTrue(4 == path.get(2));
         // check path 2 -> 6 (should be null)
-        path = GraphAlgorithms.shortestPath(g, 1, 6);
+        path = GraphAlgorithms.shortestPath(g_a_u, 1, 6);
         assertEquals(4, path.size());
         assertTrue(1 == path.get(0));
         assertTrue(2 == path.get(1));
@@ -275,29 +275,101 @@ public class BFSTest {
 
     @Test
     public void complexBFSConnectedComponents() {
-        Graph<Integer> g = new AdjacencyList<>(6, false);
-        g.add(0, null, 1);
-        g.add(1, null, 0);
-        g.add(1, null, 2);
-        g.add(1, null, 3);
-        g.add(1, null, 5);
-        g.add(5, null, 4);
-        g.add(5, null, 8);
-        g.add(5, null, 9);
-        g.add(7, null, 2);
-        g.add(7, null, 6);
-        g.add(9, null, 3);
-        g.add(9, null, 4);
-        g.add(9, null, 7);
-        Map<Integer,Integer> components = GraphAlgorithms.connectedComponents(g);
-        assertEquals(6, components.size());
+        Graph<Integer> g_b_d = new AdjacencyList<>(10, true);
+        g_b_d.add(0, null, 1);
+        g_b_d.add(1, null, 0);
+        g_b_d.add(1, null, 2);
+        g_b_d.add(2, null, 6);
+        g_b_d.add(4, null, 5);
+        g_b_d.add(5, null, 4);
+        g_b_d.add(5, null, 8);
+        g_b_d.add(5, null, 9);
+        g_b_d.add(6, null, 7);
+        g_b_d.add(7, null, 2);
+        g_b_d.add(7, null, 6);
+        g_b_d.add(9, null, 3);
+        g_b_d.add(9, null, 4);
+        Map<Integer,Integer> components = GraphAlgorithms.connectedComponents(g_b_d);
+        assertEquals(10, components.size());
         int c1 = components.get(0);
         assertTrue(c1 == components.get(1));
         assertTrue(c1 == components.get(2));
-        int c2 = components.get(3);
+        assertTrue(c1 == components.get(6));
+        assertTrue(c1 == components.get(7));
+        int c2 = components.get(5);
+        assertTrue(c2 == components.get(3));
         assertTrue(c2 == components.get(4));
-        assertTrue(c2 == components.get(5));
+        assertTrue(c2 == components.get(8));
+        assertTrue(c2 == components.get(9));
         assertFalse(c1 == c2);
+    }
+
+
+    @Test
+    public void complexBipartiteGraph() {
+        Graph<Integer> g_a_u = new AdjacencyList<>(10, false);
+        g_a_u.add(0, null, 1);
+        g_a_u.add(1, null, 0);
+        g_a_u.add(1, null, 2);
+        g_a_u.add(1, null, 3);
+        g_a_u.add(1, null, 5);
+        g_a_u.add(5, null, 4);
+        g_a_u.add(5, null, 8);
+        g_a_u.add(5, null, 9);
+        g_a_u.add(7, null, 2);
+        g_a_u.add(7, null, 6);
+        g_a_u.add(9, null, 3);
+        g_a_u.add(9, null, 4);
+        g_a_u.add(9, null, 7);
+        assertFalse(GraphAlgorithms.bipartite(g_a_u));
+
+        Graph<Integer> g_a_d = new AdjacencyList<>(10, true);
+        g_a_d.add(0, null, 1);
+        g_a_d.add(1, null, 0);
+        g_a_d.add(1, null, 2);
+        g_a_d.add(1, null, 3);
+        g_a_d.add(1, null, 5);
+        g_a_d.add(5, null, 4);
+        g_a_d.add(5, null, 8);
+        g_a_d.add(5, null, 9);
+        g_a_d.add(7, null, 2);
+        g_a_d.add(7, null, 6);
+        g_a_d.add(9, null, 3);
+        g_a_d.add(9, null, 4);
+        g_a_d.add(9, null, 7);
+        assertFalse(GraphAlgorithms.bipartite(g_a_d));
+
+        Graph<Integer> g_b_d = new AdjacencyList<>(10, true);
+        g_b_d.add(0, null, 1);
+        g_b_d.add(1, null, 0);
+        g_b_d.add(1, null, 2);
+        g_b_d.add(2, null, 6);
+        g_b_d.add(4, null, 5);
+        g_b_d.add(5, null, 4);
+        g_b_d.add(5, null, 8);
+        g_b_d.add(5, null, 9);
+        g_b_d.add(6, null, 7);
+        g_b_d.add(7, null, 2);
+        g_b_d.add(7, null, 6);
+        g_b_d.add(9, null, 3);
+        g_b_d.add(9, null, 4);
+        assertFalse(GraphAlgorithms.bipartite(g_b_d));
+
+        Graph<Integer> g_c_d_bipart = new AdjacencyList<>(10, true);
+        g_c_d_bipart.add(0, null, 1);
+        g_c_d_bipart.add(1, null, 0);
+        g_c_d_bipart.add(1, null, 2);
+        g_c_d_bipart.add(1, null, 3);
+        g_c_d_bipart.add(1, null, 5);
+        g_c_d_bipart.add(5, null, 4);
+        g_c_d_bipart.add(4, null, 5);
+        g_c_d_bipart.add(5, null, 8);
+        g_c_d_bipart.add(6, null, 7);
+        g_c_d_bipart.add(7, null, 2);
+        g_c_d_bipart.add(7, null, 6);
+        g_c_d_bipart.add(9, null, 4);
+        g_c_d_bipart.add(9, null, 7);
+        assertTrue(GraphAlgorithms.bipartite(g_c_d_bipart));
     }
 
 
