@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.List;
 
 
-/* TODO: You must do the following steps: 
+/* You must do the following steps:
 
    (1). Implement the algorithms in GraphAlgorithms.java. Note it is
    best to get these done one at a time, starting with BFS. Once done,
@@ -33,7 +33,7 @@ import java.util.List;
    one for a directed graph and one for an undirected graph. Your
    graphs must be significantly more complex and require checking much
    longer paths. In addition, each test must check for multiple paths
-   in the grahs.
+   in the graphs.
 
    (4). For connected components, you must create one additional test
    over a considerably more complex graph (with many components). 
@@ -69,7 +69,6 @@ public class BFSTest {
     @Test
     public void complexDirectedAllReachableBFS() throws Exception {
         Graph<Integer> g = new AdjacencyList<>(10, true);
-        g.add(0, null, 0);
         g.add(0, null, 1);
         g.add(1, null, 0);
         g.add(1, null, 2);
@@ -78,7 +77,6 @@ public class BFSTest {
         g.add(5, null, 4);
         g.add(5, null, 8);
         g.add(5, null, 9);
-        g.add(6, null, 2);
         g.add(7, null, 2);
         g.add(7, null, 6);
         g.add(9, null, 3);
@@ -89,17 +87,217 @@ public class BFSTest {
         assertEquals(10, tree.size());
         assertTrue(-1 == tree.get(0));
         assertTrue(0 == tree.get(1));
-        assertTrue(4 == tree.get(5));
-        assertTrue(2 == tree.get(6));
-        assertTrue(6 == tree.get(7));
+        assertTrue(1 == tree.get(2));
+        assertTrue(1 == tree.get(3));
+        assertTrue(5 == tree.get(4));
+        assertTrue(1 == tree.get(5));
+        assertTrue(7 == tree.get(6));
+        assertTrue(9 == tree.get(7));
+        assertTrue(5 == tree.get(8));
+        assertTrue(5 == tree.get(9));
+    }
+
+
+    @Test
+    public void complexUndirectedAllReachableBFS() throws Exception {
+        Graph<Integer> g = new AdjacencyList<>(10, false);
+        g.add(0, null, 1);
+        g.add(1, null, 0);
+        g.add(1, null, 2);
+        g.add(1, null, 3);
+        g.add(1, null, 5);
+        g.add(5, null, 4);
+        g.add(5, null, 8);
+        g.add(5, null, 9);
+        g.add(7, null, 2);
+        g.add(7, null, 6);
+        g.add(9, null, 3);
+        g.add(9, null, 4);
+        g.add(9, null, 7);
+        // bfs from 0
+        Map<Integer,Integer> tree = GraphAlgorithms.bfs(g, 0);
+        assertEquals(10, tree.size());
+        assertTrue(-1 == tree.get(0));
+        assertTrue(0 == tree.get(1));
+        assertTrue(1 == tree.get(2));
+        assertTrue(1 == tree.get(3));
+        assertTrue(5 == tree.get(4));
+        assertTrue(1 == tree.get(5));
+        assertTrue(7 == tree.get(6));
+        assertTrue(2 == tree.get(7));
+        assertTrue(5 == tree.get(8));
         assertTrue(3 == tree.get(9));
-        // bfs from 1
-//        tree = GraphAlgorithms.bfs(g, 1);
-//        assertEquals(4, tree.size());
-//        assertTrue(-1 == tree.get(1));
-//        assertTrue(1 == tree.get(0));
-//        assertTrue(0 == tree.get(2));
-//        assertTrue(2 == tree.get(3));
+
+        tree = GraphAlgorithms.bfs(g, 5);
+        assertEquals(10, tree.size());
+        assertTrue(1 == tree.get(0));
+        assertTrue(5 == tree.get(1));
+        assertTrue(1 == tree.get(2));
+        assertTrue(1 == tree.get(3));
+        assertTrue(5 == tree.get(4));
+        assertTrue(-1 == tree.get(5));
+        assertTrue(7 == tree.get(6));
+        assertTrue(9 == tree.get(7));
+        assertTrue(5 == tree.get(8));
+        assertTrue(5 == tree.get(9));
+    }
+
+
+    @Test
+    public void complexDirectedMostReachableBFS() throws Exception {
+        Graph<Integer> g = new AdjacencyList<>(10, true);
+        g.add(0, null, 1);
+        g.add(1, null, 0);
+        g.add(1, null, 2);
+        g.add(1, null, 3);
+        g.add(1, null, 5);
+        g.add(5, null, 4);
+        g.add(5, null, 8);
+        g.add(5, null, 9);
+        g.add(7, null, 2);
+        g.add(7, null, 6);
+        g.add(9, null, 3);
+        g.add(9, null, 4);
+        g.add(9, null, 7);
+        // bfs from 5
+        Map<Integer, Integer> tree = GraphAlgorithms.bfs(g, 5);
+        // Nodes 1 and zero are unreachable in this graph with src = 5
+        assertEquals(8, tree.size());
+        assertTrue(7 == tree.get(2));
+        assertTrue(9 == tree.get(3));
+        assertTrue(5 == tree.get(4));
+        assertTrue(-1 == tree.get(5));
+        assertTrue(7 == tree.get(6));
+        assertTrue(9 == tree.get(7));
+        assertTrue(5 == tree.get(8));
+        assertTrue(5 == tree.get(9));
+    }
+
+
+    @Test
+    public void complexDirectedAllReachableShortestPath() throws Exception {
+        Graph<Integer> g = new AdjacencyList<>(10, true);
+        g.add(0, null, 1);
+        g.add(1, null, 0);
+        g.add(1, null, 2);
+        g.add(1, null, 3);
+        g.add(1, null, 5);
+        g.add(5, null, 4);
+        g.add(5, null, 8);
+        g.add(5, null, 9);
+        g.add(7, null, 2);
+        g.add(7, null, 6);
+        g.add(9, null, 3);
+        g.add(9, null, 4);
+        g.add(9, null, 7);
+        // Shortest path 0 -> 6
+        List<Integer> path = GraphAlgorithms.shortestPath(g, 0, 6);
+        assertEquals(6, path.size());
+        assertTrue(0 == path.get(0));
+        assertTrue(1 == path.get(1));
+        assertTrue(5 == path.get(2));
+        assertTrue(9 == path.get(3));
+        assertTrue(7 == path.get(4));
+        assertTrue(6 == path.get(5));
+        // check path 0 -> 2
+        path = GraphAlgorithms.shortestPath(g, 0, 2);
+        assertEquals(3, path.size());
+        assertTrue(0 == path.get(0));
+        assertTrue(1 == path.get(1));
+        assertTrue(2 == path.get(2));
+        // check path 5 -> 2
+        path = GraphAlgorithms.shortestPath(g, 5, 2);
+        assertEquals(4, path.size());
+        assertTrue(5 == path.get(0));
+        assertTrue(9 == path.get(1));
+        assertTrue(7 == path.get(2));
+        assertTrue(2 == path.get(3));
+        // check path 3 -> 4
+        path = GraphAlgorithms.shortestPath(g, 3, 4);
+        assertEquals(null, path);
+        // check path 2 -> 6 (should be null)
+        path = GraphAlgorithms.shortestPath(g, 2, 6);
+        assertEquals(null, path);
+    }
+
+
+    @Test
+    public void complexUndirectedAllReachableShortestPath() throws Exception {
+        Graph<Integer> g = new AdjacencyList<>(10, false);
+        g.add(0, null, 1);
+        g.add(1, null, 0);
+        g.add(1, null, 2);
+        g.add(1, null, 3);
+        g.add(1, null, 5);
+        g.add(5, null, 4);
+        g.add(5, null, 8);
+        g.add(5, null, 9);
+        g.add(7, null, 2);
+        g.add(7, null, 6);
+        g.add(9, null, 3);
+        g.add(9, null, 4);
+        g.add(9, null, 7);
+        // Shortest path 0 -> 6
+        List<Integer> path = GraphAlgorithms.shortestPath(g, 0, 6);
+        assertEquals(5, path.size());
+        assertTrue(0 == path.get(0));
+        assertTrue(1 == path.get(1));
+        assertTrue(2 == path.get(2));
+        assertTrue(7 == path.get(3));
+        assertTrue(6 == path.get(4));
+        // check path 0 -> 2
+        path = GraphAlgorithms.shortestPath(g, 0, 2);
+        assertEquals(3, path.size());
+        assertTrue(0 == path.get(0));
+        assertTrue(1 == path.get(1));
+        assertTrue(2 == path.get(2));
+        // check path 5 -> 2
+        path = GraphAlgorithms.shortestPath(g, 5, 2);
+        assertEquals(3, path.size());
+        assertTrue(5 == path.get(0));
+        assertTrue(1 == path.get(1));
+        assertTrue(2 == path.get(2));
+        // check path 3 -> 4
+        path = GraphAlgorithms.shortestPath(g, 3, 4);
+        assertEquals(3, path.size());
+        assertTrue(3 == path.get(0));
+        assertTrue(9 == path.get(1));
+        assertTrue(4 == path.get(2));
+        // check path 2 -> 6 (should be null)
+        path = GraphAlgorithms.shortestPath(g, 1, 6);
+        assertEquals(4, path.size());
+        assertTrue(1 == path.get(0));
+        assertTrue(2 == path.get(1));
+        assertTrue(7 == path.get(2));
+        assertTrue(6 == path.get(3));
+    }
+
+
+    @Test
+    public void complexBFSConnectedComponents() {
+        Graph<Integer> g = new AdjacencyList<>(6, false);
+        g.add(0, null, 1);
+        g.add(1, null, 0);
+        g.add(1, null, 2);
+        g.add(1, null, 3);
+        g.add(1, null, 5);
+        g.add(5, null, 4);
+        g.add(5, null, 8);
+        g.add(5, null, 9);
+        g.add(7, null, 2);
+        g.add(7, null, 6);
+        g.add(9, null, 3);
+        g.add(9, null, 4);
+        g.add(9, null, 7);
+        Map<Integer,Integer> components = GraphAlgorithms.connectedComponents(g);
+        assertEquals(6, components.size());
+        int c1 = components.get(0);
+        assertTrue(c1 == components.get(1));
+        assertTrue(c1 == components.get(2));
+        int c2 = components.get(3);
+        assertTrue(c2 == components.get(4));
+        assertTrue(c2 == components.get(5));
+        assertFalse(c1 == c2);
     }
 
 
